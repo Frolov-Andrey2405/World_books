@@ -56,11 +56,54 @@ class Author(models.Model):
     def __str__(self):
         return self.last_name
 
+
 class Book(models.Model):
     '''Model for storing books'''
-    
+
     title = models.CharField(
         max_length=200,
         help_text='Enter the title of the book',
         verbose_name='Book title'
     )
+
+    genre = models.ForeignKey(
+        'Genre',
+        on_delete=models.CASCADE,
+        help_text='Enter a genre for the book',
+        verbose_name='Book genre',
+        null=True
+    )
+
+    language = models.ForeignKey(
+        'Language',
+        on_delete=models.CASCADE,
+        help_text='Select the language of the book',
+        verbose_name='The language of the book',
+        null=True
+    )
+
+    author = models.ManyToManyField(
+        'Author',
+        help_text='Select the author of the book',
+        verbose_name='Author of the book',
+        null=True
+    )
+
+    summary = models.TextField(
+        max_length=1000,
+        help_text='Enter a brief description of the book',
+        verbose_name='Book abstract'
+    )
+
+    isbn = models.CharField(
+        max_length=13,
+        help_text='Must contain 13 characters',
+        verbose_name='ISBN of the book'
+    )
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        # Returns the URL to access a specific instance of the book
+        return reverse('book-detail', args=[str(self.id)])
