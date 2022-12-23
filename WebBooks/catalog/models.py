@@ -86,7 +86,6 @@ class Book(models.Model):
         'Author',
         help_text='Select the author of the book',
         verbose_name='Author of the book',
-        null=True
     )
 
     summary = models.TextField(
