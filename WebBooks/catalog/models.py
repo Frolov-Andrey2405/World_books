@@ -118,3 +118,42 @@ class Status(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class BookInstance(models.Model):
+    book = models.ForeignKey(
+        'Book',
+        on_delete=models.CASCADE,
+        null=True
+    )
+
+    inv_nom = models.CharField(
+        max_length=20,
+        null=True,
+        help_text='Enter the inventory number of the copy',
+        verbose_name='Inventory number'
+    )
+
+    imprint = models.CharField(
+        max_length=200,
+        help_text='Enter the publisher and year of issue',
+        verbose_name='Publisher '
+    )
+
+    status = models.ForeignKey(
+        'Status',
+        on_delete=models.CASCADE,
+        null=True,
+        help_text='Change the state of an instance',
+        verbose_name='Book copy status'
+    )
+
+    due_back = models.DateField(
+        null=True,
+        blank=True,
+        help_text='Enter the end of the status period',
+        verbose_name='Status end date'
+    )
+
+    def __str__(self):
+        return '%s %s %s' % (self.inv_nom, self.book, self.status)
