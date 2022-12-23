@@ -33,6 +33,15 @@ class BookInstanceAdmin(admin.ModelAdmin):
         'book', 'status'
     )
 
+    fieldsets = (
+        ('A copy of the book', {
+            'fields': ('book', 'imprint', 'inv_nom')
+        }),
+        ('Status and termination', {
+            'fields': ('status', 'due_back')
+        }),
+    )
+
 
 admin.site.register(Genre)
 admin.site.register(Language)
