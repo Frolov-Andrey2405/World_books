@@ -107,3 +107,14 @@ class Book(models.Model):
     def get_absolute_url(self):
         # Returns the URL to access a specific instance of the book
         return reverse('book-detail', args=[str(self.id)])
+
+
+class Status(models.Model):
+    name = models.CharField(
+        max_length=20,
+        help_text='Enter the copy status of the book',
+        verbose_name='Book copy status'
+    )
+
+    def __str__(self):
+        return self.name
