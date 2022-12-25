@@ -5,60 +5,66 @@ from django.urls import reverse
 
 
 class Genre(models.Model):
-    '''To store information about book genres'''
+    """To store information about book genres"""
 
     name = models.CharField(
         max_length=200,
-        help_text='Enter book genre',
-        verbose_name='Book genre')
+        help_text='Enter a book genre',
+        verbose_name='Book genre'
+    )
 
     def __str__(self):
         return self.name
 
 
 class Language(models.Model):
-    '''A guide to the languages in which the books are written'''
+    """A guide to the languages in which the books are written"""
 
     name = models.CharField(
         max_length=200,
-        help_text='Enter the language of the book',
-        verbose_name='The language of the book')
+        help_text='Enter the language in which the book is written',
+        verbose_name='Book language'
+    )
 
     def __str__(self):
         return self.name
 
 
 class Author(models.Model):
-    '''To store information about the authors of books'''
+    """To store information about the authors of books"""
 
     first_name = models.CharField(
         max_length=100,
-        help_text="Enter the author's first name",
-        verbose_name="Author's first name")
+        help_text='Enter the author\'s first name',
+        verbose_name='Author\'s first name'
+    )
 
     last_name = models.CharField(
         max_length=100,
-        help_text="Enter the author's last name",
-        verbose_name="Author's last name")
+        help_text='Enter the author\'s last name',
+        verbose_name='Author\'s last name'
+    )
 
     date_of_birth = models.DateField(
-        help_text="Enter date of birth",
-        verbose_name="Date of birth",
+        help_text='Enter the author\'s date of birth',
+        verbose_name='Date of birth',
         null=True,
-        blank=True)
+        blank=True
+    )
 
     date_of_death = models.DateField(
-        help_text="Enter the date of death",
-        verbose_name="Date of death",
+        help_text='Enter the author\'s date of death',
+        verbose_name='Date of death',
         null=True,
-        blank=True)
+        blank=True
+    )
 
     def __str__(self):
-        return self.last_name
+        return f'{self.first_name} {self.last_name}'
 
 
 class Book(models.Model):
-    '''Model for storing books'''
+    """Model for storing books"""
 
     title = models.CharField(
         max_length=200,
@@ -69,41 +75,43 @@ class Book(models.Model):
     genre = models.ForeignKey(
         'Genre',
         on_delete=models.CASCADE,
-        help_text='Enter a genre for the book',
+        help_text='Select a genre for the book',
         verbose_name='Book genre',
-        null=True
+        null=True,
+        blank=True
     )
 
     language = models.ForeignKey(
         'Language',
         on_delete=models.CASCADE,
-        help_text='Select the language of the book',
-        verbose_name='The language of the book',
-        null=True
+        help_text='Select the language in which the book is written',
+        verbose_name='Book language',
+        null=True,
+        blank=True
     )
 
     author = models.ManyToManyField(
         'Author',
-        help_text='Select the author of the book',
-        verbose_name='Author of the book',
+        help_text='Select the authors of the book',
+        verbose_name='Book authors'
     )
 
     summary = models.TextField(
         max_length=1000,
-        help_text='Enter a brief description of the book',
-        verbose_name='Book abstract'
+        help_text='Enter a brief description or summary of the book',
+        verbose_name='Book summary'
     )
 
     isbn = models.CharField(
         max_length=13,
-        help_text='Must contain 13 characters',
-        verbose_name='ISBN of the book'
+        help_text='Enter the ISBN of the book (must contain 13 characters)',
+        verbose_name='Book ISBN'
     )
 
     def display_author(self):
         return ', '.join([author.last_name for author in self.author.all()])
 
-    display_author.short_descriptions = 'Authors'
+    display_author.short_description = 'Authors'
 
     def __str__(self):
         return self.title
@@ -114,9 +122,11 @@ class Book(models.Model):
 
 
 class Status(models.Model):
+    """Model for storing book copy statuses"""
+
     name = models.CharField(
         max_length=20,
-        help_text='Enter the copy status of the book',
+        help_text='Enter the status of the book copy (e.g. available, borrowed, etc.)',
         verbose_name='Book copy status'
     )
 
@@ -125,6 +135,8 @@ class Status(models.Model):
 
 
 class BookInstance(models.Model):
+    """Model for storing information about specific copies of books"""
+
     book = models.ForeignKey(
         'Book',
         on_delete=models.CASCADE,
@@ -134,30 +146,30 @@ class BookInstance(models.Model):
     inv_nom = models.CharField(
         max_length=20,
         null=True,
-        help_text='Enter the inventory number of the copy',
+        help_text='Enter the inventory number of the book copy',
         verbose_name='Inventory number'
     )
 
     imprint = models.CharField(
         max_length=200,
-        help_text='Enter the publisher and year of issue',
-        verbose_name='Publisher '
+        help_text='Enter the publisher and year of publication for this book copy',
+        verbose_name='Publisher and year of publication'
     )
 
     status = models.ForeignKey(
         'Status',
         on_delete=models.CASCADE,
         null=True,
-        help_text='Change the state of an instance',
+        help_text='Select the current status of this book copy (e.g. available, borrowed, etc.)',
         verbose_name='Book copy status'
     )
 
     due_back = models.DateField(
         null=True,
         blank=True,
-        help_text='Enter the end of the status period',
-        verbose_name='Status end date'
+        help_text='Enter the date when this book copy is due to be returned (if applicable)',
+        verbose_name='Return due date'
     )
 
     def __str__(self):
-        return '%s %s %s' % (self.inv_nom, self.book, self.status)
+        return f'{self.inv_nom} {self.book} {self.status}'
