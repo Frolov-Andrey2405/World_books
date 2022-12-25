@@ -16,6 +16,10 @@ class AuthorAdmin(admin.ModelAdmin):
     ]
 
 
+class BookInstanceInline(admin.TabularInline):
+    model = BookInstance
+
+
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = (
@@ -25,6 +29,8 @@ class BookAdmin(admin.ModelAdmin):
     list_filter = (
         'genre', 'author'
     )
+
+    inlines = [BookInstanceInline]
 
 
 @admin.register(BookInstance)
