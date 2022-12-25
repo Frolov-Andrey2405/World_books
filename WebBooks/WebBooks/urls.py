@@ -19,5 +19,5 @@ from catalog import views
 
 urlpatterns = [
     path('', views.index, name='homepage'),
-    path('admin/', admin.site.urls),
+    path('admin/', admin.site.urls, name='admin'),
 ]

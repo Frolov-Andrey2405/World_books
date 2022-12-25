@@ -1,12 +1,12 @@
 # World_books
 
-Introducing an online book catalog from which users can download⬇️ available books and where they can manage their profiles 👤
+Welcome to World_books, an online book catalog where users can download available books and manage their profiles.
 
-This site serves as an online resource 🌐 that gives you the opportunity to download electronic copies of books 📚 or an online bookstore🏬 or a digital library where you can sign up📝 and pick up and order your books there online.
+This site serves as an online resource for accessing electronic copies of books, similar to an online bookstore or digital library. Users can sign up and order books online.
 
 #### Requirements
 - **[Python 3.x+](https://www.python.org/)**
 - **[Django 3.x+](https://www.djangoproject.com/)**
 - **[SQLiteStudio 3.x+](https://sqlitestudio.pl/)**
 
-**📔 Practical project of the "Python, Django and PyCharm for beginners" book.**
+**📔 Practical project based on the "Python, Django and PyCharm for beginners" book.**
